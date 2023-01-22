@@ -1,11 +1,13 @@
 from cli_args_system import Args
 from git import Repo
-from os import getcwd
+from os import getcwd,getpid
 from sys import exit
 import signal
 import time
 import subprocess
 import psutil
+
+
 def check_for_updates(repo:Repo)->bool:
     """Check if the local repo is up to date with the remote repo."""
     current_hash = repo.head.object.hexsha
@@ -90,9 +92,14 @@ def main():
     except:
         print('Invalid repository path. Exiting...')
         exit(1)
-    run_comand(comand,time_wait,repo)
+    try:
+        run_comand(comand,time_wait,repo)
+    except Exception as e:
+        print('Exiting...')
+        # kill the process
+        kill(getpid())
+        exit(0)
 
-
-    print(inputs)
 if __name__ == '__main__':
+    
     main()
