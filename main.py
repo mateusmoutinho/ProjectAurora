@@ -1,8 +1,8 @@
 from cli_args_system import Args
 from git import Repo
-from os import getcwd
+from os import getcwd,system
 from sys import exit
-import subprocess
+
 import time
 import threading
 
@@ -56,9 +56,10 @@ def get_inputs()->dict:
 def run_comand(comand:str,time_wait:int,repo:Repo):
     while True:
         print('Starting...')
-        thread = threading.Thread(target=lambda:subprocess.run(comand,shell=True))
-        thread.start()
+        thread = threading.Thread(target=lambda:system(comand))
         thread.daemon = True
+        thread.start()
+
         while True:
             print('Waiting for updates...')
             time.sleep(time_wait)
@@ -67,7 +68,7 @@ def run_comand(comand:str,time_wait:int,repo:Repo):
                 print('Update found. Updating...')
                 pull(repo)
                 print('Update done. Killing comand...')
-                thread.kill()
+                thread.join()
                 break    
 
 
