@@ -2,7 +2,8 @@ from cli_args_system import Args
 from git import Repo
 from os import getcwd
 from sys import exit
-
+import subprocess
+import time
 
 
 def check_for_updates(repo:Repo)->bool:
@@ -24,11 +25,12 @@ def pull(repo:Repo):
 
 
 def get_inputs()->dict:
+    """Get the inputs from the user."""
     args = Args()
     repo = args.flag_str('repo','r','repository')
     if not repo:
         repo = getcwd()
-    exec = args.flag_str('exec','e','executable')
+    exec = args.flag_str('c','comand')
 
     time = args.flag_str('time','t','time')
     if not time:
@@ -41,34 +43,43 @@ def get_inputs()->dict:
             exit(1)
 
     if not exec:
-        print('No executable specified. Exiting...')
+        print('No comand specified. Exiting...')
         exit(1)
     return {
         'repository':repo,
-        'executable':exec,
+        'comand':exec,
         'time':time
     }    
 
 
+def run_comand(comand:str,time_wait:int,repo:Repo):
+    while True:
+        print('Starting...')
+        subprocess.run(comand,shell=True)
+
+        while True:
+            print('Waiting for updates...')
+            time.sleep(time_wait)
+
+            if check_for_updates(repo):
+                print('Update found. Updating...')
+                pull(repo)
+                break    
 
 
 def main():
     inputs = get_inputs()
     repository_path = inputs['repository']
     time_wait = inputs['time']
-    executable = inputs['executable']
+    comand = inputs['comand']
 
     try:
         repo = Repo(repository_path)
     except:
         print('Invalid repository path. Exiting...')
         exit(1)
+    run_comand(comand,time_wait,repo)
 
-
-    if check_for_updates(repo):
-        print('Update found. Updating...')
-        pull(repo)
- 
 
     print(inputs)
 if __name__ == '__main__':
