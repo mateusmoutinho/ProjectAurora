@@ -1,11 +1,11 @@
 from cli_args_system import Args
 from git import Repo
-from os import getcwd,system
+from os import getcwd
 from sys import exit
-
+import signal
 import time
-import threading
-
+import subprocess
+import psutil
 def check_for_updates(repo:Repo)->bool:
     """Check if the local repo is up to date with the remote repo."""
     current_hash = repo.head.object.hexsha
@@ -52,14 +52,18 @@ def get_inputs()->dict:
         'time':time
     }    
 
+def kill(proc_pid):
+    process = psutil.Process(proc_pid)
+    for proc in process.children(recursive=True):
+        proc.kill()
+    process.kill()
+
 
 def run_comand(comand:str,time_wait:int,repo:Repo):
     while True:
         print('Starting...')
-        thread = threading.Thread(target=lambda:system(comand))
-        thread.daemon = True
-        thread.start()
-
+        process = subprocess.Popen(comand,shell=True)
+    
         while True:
             print('Waiting for updates...')
             time.sleep(time_wait)
@@ -68,8 +72,11 @@ def run_comand(comand:str,time_wait:int,repo:Repo):
                 print('Update found. Updating...')
                 pull(repo)
                 print('Update done. Killing comand...')
-                thread.join()
-                break    
+                
+                # kill the process
+                kill(process.pid)
+                
+                break 
 
 
 def main():
