@@ -4,7 +4,7 @@ from os import getcwd
 from sys import exit
 import subprocess
 import time
-
+import threading
 
 def check_for_updates(repo:Repo)->bool:
     """Check if the local repo is up to date with the remote repo."""
@@ -56,8 +56,9 @@ def get_inputs()->dict:
 def run_comand(comand:str,time_wait:int,repo:Repo):
     while True:
         print('Starting...')
-        subprocess.run(comand,shell=True)
-
+        thread = threading.Thread(target=lambda:subprocess.run(comand,shell=True))
+        thread.start()
+        thread.daemon = True
         while True:
             print('Waiting for updates...')
             time.sleep(time_wait)
@@ -65,6 +66,8 @@ def run_comand(comand:str,time_wait:int,repo:Repo):
             if check_for_updates(repo):
                 print('Update found. Updating...')
                 pull(repo)
+                print('Update done. Killing comand...')
+                thread.kill()
                 break    
 
 
