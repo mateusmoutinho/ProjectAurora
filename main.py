@@ -19,7 +19,7 @@ def check_for_updates(repo:Repo)->bool:
 
 
 def pull(repo:Repo):
-    """Execute pull on the repo"""
+    """comandute pull on the repo"""
     origin = repo.remotes.origin
     origin.pull()
 
@@ -30,7 +30,8 @@ def get_inputs()->dict:
     repo = args.flag_str('repo','r','repository')
     if not repo:
         repo = getcwd()
-    exec = args.flag_str('c','comand')
+    comand = args.flags_content('comand','c','comand')
+    comand = ' '.join(comand.flags())
 
     time = args.flag_str('time','t','time')
     if not time:
@@ -42,12 +43,12 @@ def get_inputs()->dict:
             print('Invalid time specified. Exiting...')
             exit(1)
 
-    if not exec:
+    if not comand:
         print('No comand specified. Exiting...')
         exit(1)
     return {
         'repository':repo,
-        'comand':exec,
+        'comand':comand,
         'time':time
     }    
 
@@ -72,7 +73,7 @@ def main():
     repository_path = inputs['repository']
     time_wait = inputs['time']
     comand = inputs['comand']
-
+     
     try:
         repo = Repo(repository_path)
     except:
