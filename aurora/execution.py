@@ -3,7 +3,7 @@ import time
 import subprocess
 import psutil
 from git import Repo
-from repository import check_for_updates,pull
+from aurora.repository import check_for_updates,pull
 
 
 def kill_all_process(proc_pid:int):
