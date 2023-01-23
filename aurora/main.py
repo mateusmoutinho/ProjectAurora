@@ -14,7 +14,14 @@ from sys import exit
 
 
 def main():
-    inputs = get_inputs()
+    try:
+        inputs = get_inputs()
+        print(inputs)
+    except Exception as e:
+        print('Exiting...')
+        exit(0)
+
+    '''
     repository_path = inputs['repository']
     time_wait = inputs['time']
     comand = inputs['comand']
@@ -26,6 +33,7 @@ def main():
         # kill the process
         kill_all_processes(getpid())
         exit(0)
+    '''
 
 if __name__ == '__main__':
     

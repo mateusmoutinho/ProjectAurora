@@ -20,8 +20,8 @@ def exec_repository_actions(comand:str or None,time_wait:int,repo:str):
         repo = Repo(repo)
     except:
         print('Invalid repository path. Exiting...')
-        exit(1)
-
+        raise Exception('Invalid repository path')
+        
     while True:
         print('Starting...')
         if comand:

@@ -1,5 +1,5 @@
 from cli_args_system import Args
-
+from os import getcwd
 
 def get_inputs()->dict:
     """Get the inputs from the user."""
@@ -18,11 +18,12 @@ def get_inputs()->dict:
             time = int(time)     
         except:
             print('Invalid time specified. Exiting...')
-            exit(1)
+            raise Exception('Invalid time specified')
 
     if not comand:
         print('No comand specified. Exiting...')
-        exit(1)
+        raise Exception('No comand specified')
+
     return {
         'repository':repo,
         'comand':comand,
