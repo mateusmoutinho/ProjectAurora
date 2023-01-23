@@ -31,6 +31,7 @@ def exec_repository_actions(comand:str or None,time_wait:int,repo:str):
             print('Waiting for updates...')
             time.sleep(time_wait)
 
+            #means that there is an update
             if check_for_updates(repo):
                 print('Update found. Updating...')
                 pull(repo)

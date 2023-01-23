@@ -24,7 +24,6 @@ def main():
         exec_repository_actions(comand,time_wait,repository_path)
     except Exception as e:
         print('Exiting...')
-        # kill the process
         kill_all_process(getpid())
         exit(1)
     
