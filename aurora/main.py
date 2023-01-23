@@ -14,7 +14,7 @@ def main():
         inputs = get_inputs()
     except Exception as e:
         print('Exiting...')
-        exit(0)
+        exit(1)
 
     repository_path = inputs['repository']
     time_wait = inputs['time']
@@ -26,7 +26,7 @@ def main():
         print('Exiting...')
         # kill the process
         kill_all_process(getpid())
-        exit(0)
+        exit(1)
     
 if __name__ == '__main__':
     
