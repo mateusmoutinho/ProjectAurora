@@ -19,14 +19,8 @@ def main():
     repository_path = inputs['repository']
     time_wait = inputs['time']
     comand = inputs['comand']
+    exec_repository_actions(comand,time_wait,repository_path)
 
-    try:
-        exec_repository_actions(comand,time_wait,repository_path)
-    except Exception as e:
-        print('Exiting...')
-        kill_all_process(getpid())
-        exit(1)
-    
 if __name__ == '__main__':
     
     main()
