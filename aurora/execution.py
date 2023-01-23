@@ -5,6 +5,7 @@ import psutil
 from git import Repo
 from repository import check_for_updates,pull
 
+
 def kill_all_process(proc_pid:int):
     process = psutil.Process(proc_pid)
     for proc in process.children(recursive=True):
@@ -13,10 +14,18 @@ def kill_all_process(proc_pid:int):
 
 
 
-def run_comand(comand:str,time_wait:int,repo:Repo):
+def exec_repository_actions(comand:str or None,time_wait:int,repo:str):
+         
+    try:
+        repo = Repo(repo)
+    except:
+        print('Invalid repository path. Exiting...')
+        exit(1)
+
     while True:
         print('Starting...')
-        process = subprocess.Popen(comand,shell=True)
+        if comand:
+            process = subprocess.Popen(comand,shell=True)
     
         while True:
             print('Waiting for updates...')
@@ -28,5 +37,6 @@ def run_comand(comand:str,time_wait:int,repo:Repo):
                 print('Update done. Killing comand...')
                 
                 # kill the process
-                kill_all_process(process.pid)
+                if comand:
+                    kill_all_process(process.pid)
                 break 
