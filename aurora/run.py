@@ -21,6 +21,7 @@ def main():
     comand = inputs['comand']
     exec_repository_actions(comand,time_wait,repository_path)
 
+
 if __name__ == '__main__':
     
     main()
