@@ -51,6 +51,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 exec.sh
+junção.py
 # Translations
 *.mo
 *.pot
