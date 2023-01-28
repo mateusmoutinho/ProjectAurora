@@ -12,8 +12,8 @@ You can then run the following command:
 ~~~~bash
 pip install git+https://github.com/mateusmoutinho/ProjectAurora.git
 ~~~~
-### Usage
-The basic usage of Project Aurora is to run the command python3 -m aurora.run followed by the options you want to use.
+### Basic Usage
+The basic usage of Project Aurora is to run the command **python3 -m aurora.run** followed by the options you want to use.
 
 #### Repository
 You can specify the repository you want to use with the **-repo** or **-r** option. If you are already inside the repository, you don't need to specify the repository path.
@@ -30,16 +30,6 @@ You can turn on quiet mode with the **-quiet** or **-q** option. This will preve
 #### Log File
 You can specify a log file to write the log messages to with the **-log** or **-l** option.
 
-#### Example
-Here is an example of a command that will check for updates every 10 seconds, pull the changes and run the commands flask:
 
-~~~bash
---app ../teste/teste.py run --port=5000 and flask --app ../teste/teste.py run --port=5001:
-~~~
-
-#### bash
-python3 -m aurora.run -repo ../teste -c 'flask --app ../teste/teste.py run --port=5000' 'flask --app ../teste/teste.py run --port=5001' -quiet -log 'output.log'
-You can also use the same command without specifying the repository path if you are already inside the repository.
-
-Conclusion
+### Conclusion
 Project Aurora is a useful tool for automating the process of syncing and running commands on git repositories. With its simple command line interface and flexible options, it can save you time and make your workflow more efficient. Try it out today!

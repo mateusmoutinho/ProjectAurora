@@ -19,8 +19,7 @@ def get_entrys(acumulated_log:list)->dict:
     log_file = args.flag_str('l','log','logfile')
     
     #Getting Comand
-    comands = list(args.flags_content('comand','c','comand'))
-
+    comands = list(args.flags_content('comand','c'))
     if not comands:
         comands =[]
 

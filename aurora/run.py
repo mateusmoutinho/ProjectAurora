@@ -1,8 +1,9 @@
 
-
+import os 
 from aurora.entrys import get_entrys
-from aurora.execution import run_comands
+from aurora.execution import run_comands,kill_process
 from aurora.log import treat_log,create_log_yaml
+
 from sys import exit
 
 
@@ -22,7 +23,7 @@ def main():
     quiet = entrys['quiet']
     log_file = entrys['logfile']
   
-   
+    print(comands)
     try:
         run_comands(acumulated_log,quiet,comands,time_wait,repository_path)
     except KeyboardInterrupt:
@@ -35,7 +36,12 @@ def main():
             log_content = create_log_yaml(acumulated_log,entrys)
             with open(f'{log_file}.yaml', 'w') as f:
                 f.write(log_content)
-        exit(1)
+        #get main process pid and kill it
+         
+
+        pid = os.getpid()
+        kill_process(pid)
+ 
 
 if __name__ == '__main__':
     

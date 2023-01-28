@@ -7,7 +7,7 @@ from aurora.repository import check_for_updates,pull
 from aurora.log import treat_log
 
 
-def kill_all_process(proc_pid:int):
+def kill_process(proc_pid:int):
     process = psutil.Process(proc_pid)
     for proc in process.children(recursive=True):
         proc.kill()
@@ -21,7 +21,7 @@ def run_comands(acumulated_log:list,quiet:bool,comands:list or None,time_wait:in
         repo = Repo(repo)
     except:
         treat_log(acumulated_log,'Invalid repository path',quiet,error=True)
-        raise Exception('Invalid repository path')
+        raise Exception('Invalid repository path',repo)
         
 
     while True:
@@ -44,5 +44,5 @@ def run_comands(acumulated_log:list,quiet:bool,comands:list or None,time_wait:in
                 
                 
                 for process in all_process:
-                    kill_all_process(process.pid)
+                    kill_process(process.pid)
                 break 
