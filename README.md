@@ -14,7 +14,10 @@ pip install git+https://github.com/mateusmoutinho/ProjectAurora.git
 ~~~~
 ### Basic Usage
 The basic usage of Project Aurora is to run the command **python3 -m aurora.run** followed by the options you want to use.
+~~~~bash 
+python3 -m aurora.run --repository test -comand 'flask --app  test/main.py run --port=5001'
 
+~~~~
 #### Repository
 You can specify the repository you want to use with the **-repo** or **-r** option. If you are already inside the repository, you don't need to specify the repository path.
 
