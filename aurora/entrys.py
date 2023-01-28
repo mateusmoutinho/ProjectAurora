@@ -11,14 +11,10 @@ def get_inputs()->dict:
         repo = getcwd()
     
     #Getting Comand
-    comand = args.flags_content('comand','c','comand')
+    comands = args.flags_content('comand','c','comand')
 
-    if not comand.exist():
-        comand = None 
-        print('Warnning, No comand specified')
-    else:
-        comand = ' '.join(comand.flags())
-    
+    if not comands:
+        comands =[]
     #Getting Time
     time = args.flag_str('time','t','time')
     if not time:
@@ -33,6 +29,6 @@ def get_inputs()->dict:
 
     return {
         'repository':repo,
-        'comand':comand,
+        'comands':comands,
         'time':time
     }    

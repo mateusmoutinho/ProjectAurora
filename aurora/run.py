@@ -15,11 +15,11 @@ def main():
     except Exception as e:
         print('Exiting...')
         exit(1)
-
+ 
     repository_path = inputs['repository']
     time_wait = inputs['time']
-    comand = inputs['comand']
-    exec_repository_actions(comand,time_wait,repository_path)
+    comands = inputs['comands']
+    exec_repository_actions(comands,time_wait,repository_path)
 
 
 if __name__ == '__main__':

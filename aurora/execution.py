@@ -14,7 +14,7 @@ def kill_all_process(proc_pid:int):
 
 
 
-def exec_repository_actions(comand:str or None,time_wait:int,repo:str):
+def exec_repository_actions(comands:list or None,time_wait:int,repo:str):
          
     try:
         repo = Repo(repo)
@@ -24,8 +24,10 @@ def exec_repository_actions(comand:str or None,time_wait:int,repo:str):
         
     while True:
         print('Starting...')
-        if comand:
-            process = subprocess.Popen(comand,shell=True)
+        all_process = []
+        for comand in comands:
+            process_created = subprocess.Popen(comand,shell=True) 
+            all_process.append(process_created)
     
         while True:
             print('Waiting for updates...')
@@ -39,5 +41,6 @@ def exec_repository_actions(comand:str or None,time_wait:int,repo:str):
                 
                 # kill the process
                 if comand:
-                    kill_all_process(process.pid)
+                    for process in all_process:
+                        kill_all_process(process.pid)
                 break 

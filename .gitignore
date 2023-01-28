@@ -50,7 +50,7 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
-
+exec.sh
 # Translations
 *.mo
 *.pot
