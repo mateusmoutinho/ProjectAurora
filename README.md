@@ -25,6 +25,7 @@ Example passing the repository:
 ~~~~bash 
 python3 -m aurora.run --repository test/ -comand 'flask --app  test/main.py run --port=5001'
 ~~~~
+
 Example hiding the repository (it will take the current folder as the repository):
 ~~~~bash 
 python3 -m aurora.run  -comand 'flask --app  main.py run --port=5001'
@@ -32,6 +33,9 @@ python3 -m aurora.run  -comand 'flask --app  main.py run --port=5001'
 
 #### Commands
 You can specify the commands you want to run with the **-comand** or **-c** option. You can pass multiple commands by separating them with spaces.
+
+
+
 
 #### Time
 You can specify the time interval between checks for updates with the **-time** or **-t** option. The default is 10 seconds.
