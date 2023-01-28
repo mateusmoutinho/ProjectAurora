@@ -14,6 +14,7 @@ def check_for_updates(repo:Repo)->bool:
     return current_hash != remote_hash
 
 
+
 def pull(repo:Repo):
     """comandute pull on the repo"""
     origin = repo.remotes.origin
