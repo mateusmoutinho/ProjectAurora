@@ -17,10 +17,18 @@ The basic usage of Project Aurora is to run the command **python3 -m aurora.run*
 
 ~~~~bash 
 python3 -m aurora.run --repository test/ -comand 'flask --app  test/main.py run --port=5001'
-
 ~~~~
 #### Repository
 You can specify the repository you want to use with the **-repo** or **-r** option. If you are already inside the repository, you don't need to specify the repository path.
+
+Example passing the repository:
+~~~~bash 
+python3 -m aurora.run --repository test/ -comand 'flask --app  test/main.py run --port=5001'
+~~~~
+Example hiding the repository (it will take the current folder as the repository):
+~~~~bash 
+python3 -m aurora.run  -comand 'flask --app  main.py run --port=5001'
+~~~~
 
 #### Commands
 You can specify the commands you want to run with the **-comand** or **-c** option. You can pass multiple commands by separating them with spaces.
