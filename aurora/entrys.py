@@ -3,8 +3,8 @@ from aurora.log import treat_log
 from os import getcwd
 
 
-def get_inputs(acumulated_log:list)->dict:
-    """Get the inputs from the user."""
+def get_entrys(acumulated_log:list)->dict:
+    """Get the entrys from the user."""
     args = Args()
     #Getting Repository
     repo = args.flag_str('repo','r','repository')
@@ -16,28 +16,29 @@ def get_inputs(acumulated_log:list)->dict:
         quiet=True
     else:
         quiet=False
-
+    log_file = args.flag_str('l','log','logfile')
+    
     #Getting Comand
-    comands = args.flags_content('comand','c','comand')
+    comands = list(args.flags_content('comand','c','comand'))
 
     if not comands:
         comands =[]
+
     #Getting Time
-    time = args.flag_str('time','t','time')
-    if not time:
-        time = 10
+    time_flag = args.flag_str('time','t','time')
+    if not time_flag:
+        time_wait = 10
     else:
         try:
-            time = int(time)     
+            time_wait = int(time_wait)     
         except TypeError:
             treat_log(acumulated_log,'Invalid time specified',quiet,error=True)
             raise TypeError('Invalid time specified')
 
-
-
     return {
         'repository':repo,
         'comands':comands,
-        'time':time,
-        'quiet':quiet
+        'timewait':time_wait,
+        'quiet':quiet,
+        'logfile':log_file
     }    

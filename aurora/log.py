@@ -1,7 +1,7 @@
 from time import time 
 import traceback
 import datetime
-
+import yaml
 
 def print_log_if_not_quiet(quiet:bool,values:str):
     """Prints the log to the console. if quiet is False"""
@@ -9,6 +9,12 @@ def print_log_if_not_quiet(quiet:bool,values:str):
         return 
     print(values)
 
+def create_log_yaml(acumulated_log:list,entrys:list)->str:
+    """Formats the log to yaml string"""
+    return yaml.dump({
+        'entrys':entrys,
+        'log':acumulated_log
+    })
 
 def add_log(acumulated_log:list, mensage:str,error:bool):
     
