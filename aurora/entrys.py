@@ -38,43 +38,83 @@ def get_entrys_from_cli(args:Args,quiet:bool)->dict:
                 'timewait':time_wait 
             }]
 
-def load_config_file(config_file:str,quiet:bool)->dict:
+
+def load_config_file(config_file:str,quiet:bool)->list:
     """Load the config file."""
     extension = config_file.split('.')[-1]
-    with open(config_file,'r') as file:
-        config_content = file.read()
-        if extension == 'json':
-            try:
-                config = json.loads(config_content)
-            except json.decoder.JSONDecodeError:
-                print_if_not_quiet(quiet,'The config file is not a json file.')
-                raise ValueError('The config file is not a json file.')
+    try:
+        with open(config_file,'r') as file:
+            config_content = file.read()
+    except FileNotFoundError:
+        print_if_not_quiet(quiet,'The config file does not exist.')
+        raise FileNotFoundError('The config file does not exist.')
 
-        elif extension in ['yaml','yml']:
-            try:
-                config = yaml.load(config_content)
-            except yaml.YAMLError:
-                print_if_not_quiet(quiet,'The config file is not a yaml file.')
-                raise ValueError('The config file is not a yaml file.')
-        else:
-            print_if_not_quiet(quiet,'The config file is not a json or yaml file.')
-            raise ValueError('The config file is not a json or yaml file.')
+    if extension == 'json':
+        try:
+            config = json.loads(config_content)
+        except json.decoder.JSONDecodeError:
+            print_if_not_quiet(quiet,'The config file is json serializable')
+            raise ValueError('The config file is json serializable.')
+
+    elif extension in ['yaml','yml']:
+        try:
+            config = yaml.load(config_content)
+        except yaml.YAMLError:
+            print_if_not_quiet(quiet,'The config file is not yaml serializable')
+            raise ValueError('The config file is not yaml serializable')
+    else:
+        print_if_not_quiet(quiet,'The config file is not a json or yaml file.')
+        raise ValueError('The config file is not a json or yaml file.')
+    
+
     return config
+
+
+def validate_config_content(quiet:bool, config_content:list):
+    if not isinstance(config_content,list):
+        print_if_not_quiet(quiet,'The config file is not a list.')
+        raise ValueError('The config file is not a list.')
+    
+    for repository in config_content:
+        if not isinstance(repository,dict):
+            print_if_not_quiet(quiet,'The config file is not a list of dicts.')
+            raise ValueError('The config file is not a list of dicts.')
+        keys = repository.keys()
+        if not 'repository' in keys:
+            print_if_not_quiet(quiet,'The repository key is not in the config file.')
+            raise ValueError('The repository key is not in the config file.')
+        if not 'comands' in keys:
+            repository['comands'] = []
+        if not 'timewait' in keys:
+            repository['timewait'] = 10
+        
+        if not isinstance(repository['comands'],list):
+            print_if_not_quiet(quiet,'The comands key is not a list.')
+            raise ValueError('The comands key is not a list.')
+        
+        if not isinstance(repository['timewait'],int):
+            print_if_not_quiet(quiet,'The timewait key is not a int.')
+            raise ValueError('The timewait key is not a int.')
 
 
 def get_entrys_from_config(config_file:str,quiet:bool)->dict:
     """Get the entrys from the config file."""
     config_content = load_config_file(config_file,quiet)
-    print(config_content)
-    
+    validate_config_content(quiet,config_content)
+    return config_content
+
+
 def get_entrys()->dict:
     args = Args()
-    quiet = args.flag_str('quiet','q','quiet')
-    quiet = True if quiet.exists() else False
+    quiet = args.flags_content('quiet','q','quiet')
+    quiet = True if quiet.exist() else False
     
-    config_file = args.flag_str('config','f','config')
-    if config_file.exists():
-        pass
+    config_file = args.flags_content('config','f','cf')
+    if config_file.exist_and_empty():
+        print_if_not_quiet(quiet,'The config file is empty.')
+        raise ValueError('The config file is empty.')
+    elif config_file.exist():
+        repositorys = get_entrys_from_config(config_file[0],quiet)
     else:
         repositorys = get_entrys_from_cli(args,quiet)
     
