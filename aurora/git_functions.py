@@ -15,7 +15,10 @@ def check_for_updates(repo:Repo)->bool:
 
 
 
-def pull(repo:Repo):
+def resset_and_pull(repo:Repo):
     """comandute pull on the repo"""
+    
     origin = repo.remotes.origin
+    #resset hard to the last commit
+    repo.head.reset(index=True,working_tree=True)
     origin.pull()

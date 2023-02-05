@@ -12,7 +12,7 @@ def get_entrys_from_cli(args:Args,quiet:bool)->dict:
 
     repo = args.flag_str('repo','r','repository')
     if not repo:
-        repo = 'current'
+        repo = getcwd()
 
     #Getting Comand
     comands = list(args.flags_content('comand','c'))
@@ -37,6 +37,7 @@ def get_entrys_from_cli(args:Args,quiet:bool)->dict:
                 'comands':comands,
                 'timewait':time_wait 
             }]
+
 
 
 def load_config_file(config_file:str,quiet:bool)->list:
@@ -70,7 +71,8 @@ def load_config_file(config_file:str,quiet:bool)->list:
     return config
 
 
-def validate_config_content( config_content:list,quiet:bool):
+
+def validate_and_format_config_content( config_content:list,quiet:bool):
     if not isinstance(config_content,list):
         print_if_not_quiet(quiet,'The config file is not a list.')
         raise ValueError('The config file is not a list.')
@@ -83,6 +85,11 @@ def validate_config_content( config_content:list,quiet:bool):
         if not 'repository' in keys:
             print_if_not_quiet(quiet,'The repository key is not in the config file.')
             raise ValueError('The repository key is not in the config file.')
+       
+       
+        if repository['repository'] == '.':
+            repository['repository'] = getcwd()
+
         if not 'comands' in keys:
             repository['comands'] = []
         if not 'timewait' in keys:
@@ -97,10 +104,11 @@ def validate_config_content( config_content:list,quiet:bool):
             raise ValueError('The timewait key is not a int.')
 
 
+
 def get_entrys_from_config(config_file:str,quiet:bool)->dict:
     """Get the entrys from the config file."""
     config_content = load_config_file(config_file,quiet)
-    validate_config_content(config_content,quiet)
+    validate_and_format_config_content(config_content,quiet)
     return config_content
 
 

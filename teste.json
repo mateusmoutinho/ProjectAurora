@@ -1,4 +1,4 @@
 [
-    {"repositorys":"/teste","comands":["git pull origin master"]}
+    {"repository":"/teste","comands":["git pull origin master"]}
 
 ]

@@ -3,8 +3,8 @@ import time
 import subprocess
 import psutil
 from git import Repo
-from aurora.repository import check_for_updates,pull
-from aurora.log import treat_log
+from aurora.git_functions import check_for_updates,resset_and_pull
+from aurora.general import print_if_not_quiet
 
 
 def kill_process(proc_pid:int):
@@ -15,20 +15,22 @@ def kill_process(proc_pid:int):
 
 
 
-def run_comands(acumulated_log:list,quiet:bool,comands:list or None,time_wait:int,repo:str):
-         
+def generate_repository_actions(repository_props:dict,quiet:bool):
+    """Generate the actions for the repository."""
+    repository_path = repository_props['repository']
+    comands = repository_props['comands']
+    time_wait = repository_props['timewait']
+
     try:
-        repo = Repo(repo)
+        repo = Repo(repository_path)
     except:
-        treat_log(acumulated_log,'Invalid repository path',quiet,error=True)
+        print_if_not_quiet(quiet,'Invalid repository path')
         raise Exception('Invalid repository path',repo)
         
-
     while True:
-        treat_log(acumulated_log,'Checking for updates...',quiet)
         all_process = []
         for comand in comands:
-            treat_log(acumulated_log,f'Running comand: {comand}',quiet)
+            
             process_created = subprocess.Popen(comand,shell=True) 
             all_process.append(process_created)
     
@@ -38,11 +40,9 @@ def run_comands(acumulated_log:list,quiet:bool,comands:list or None,time_wait:in
 
             #means that there is an update
             if check_for_updates(repo):
-                treat_log(acumulated_log,'Update found. Pulling...',quiet)
-                pull(repo)
-                treat_log(acumulated_log,'Update pulled. Killing all processes...',quiet)
-                
-                
+                print_if_not_quiet(quiet,'Update found. Pulling...')
+                resset_and_pull(repo)
+                print_if_not_quiet(quiet,'Update pulled. Killing processes...') 
                 for process in all_process:
                     kill_process(process.pid)
                 break 
