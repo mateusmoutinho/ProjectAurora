@@ -19,7 +19,9 @@ def main():
     #runs "generate_repository_actions" in diferents subprocesses
     
     for respository_props in respositorys:
+        
         p = multiprocessing.Process(target=generate_repository_actions, args=(respository_props, quiet))
+        
         p.start()
         p.deamon = True
      

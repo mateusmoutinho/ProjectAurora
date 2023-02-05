@@ -25,7 +25,7 @@ def generate_repository_actions(repository_props:dict,quiet:bool):
         repo = Repo(repository_path)
     except:
         print_if_not_quiet(quiet,'Invalid repository path')
-        raise Exception('Invalid repository path',repo)
+        exit(1)
         
     while True:
         all_process = []
