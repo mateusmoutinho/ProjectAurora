@@ -12,39 +12,91 @@ You can then run the following command:
 ~~~~bash
 pip install git+https://github.com/mateusmoutinho/ProjectAurora.git
 ~~~~
-### Basic Usage
-The basic usage of Project Aurora is to run the command **python3 -m aurora.run** followed by the options you want to use.
 
-~~~~bash 
-python3 -m aurora.run --repository test/ -comand 'flask --app  test/main.py run --port=5001'
-~~~~
+
+### Comand line usage
+The comand line  usage of Project Aurora is to run the command **python3 -m aurora.run** followed by the options you want to use.
+
 #### Repository
 You can specify the repository you want to use with the **-repo** or **-r** option. If you are already inside the repository, you don't need to specify the repository path.
 
 Example passing the repository:
 ~~~~bash 
-python3 -m aurora.run --repository test/ -comand 'flask --app  test/main.py run --port=5001'
+python3 -m aurora.run --repository test/ -comands 'flask --app  test/main.py run --port=5001'
 ~~~~
 
 Example hiding the repository (it will take the current folder as the repository):
 ~~~~bash 
-python3 -m aurora.run  -comand 'flask --app  main.py run --port=5001'
+python3 -m aurora.run  -comands 'flask --app  main.py run --port=5001'
 ~~~~
 
 #### Commands
-You can specify the commands you want to run with the **-comand** or **-c** option. You can pass multiple commands by separating them with spaces.
+You can specify the commands you want to run with the **-comands** or **-c** option. You can pass multiple commands by separating them with spaces.
 
-
+Exemple of running the flask aplication in tree diferents ports:
+~~~~bash 
+python3 -m aurora.run  -comands 'flask --app  main.py run --port=5001' 'flask --app  main.py run --port=5002' 'flask --app  main.py run --port=5003'
+~~~~
 
 
 #### Time
 You can specify the time interval between checks for updates with the **-time** or **-t** option. The default is 10 seconds.
 
-#### Quiet Mode
-You can turn on quiet mode with the **-quiet** or **-q** option. This will prevent any log messages from being printed to the console.
+Exemple of seting git update time to 50 seconds:
+~~~~bash 
+python3 -m aurora.run  -comands 'flask --app  main.py run --port=5001 -time 50'
+~~~~
 
-#### Log File
-You can specify a log file to write the log messages to with the **-log** or **-l** option.
+### Config file usage
+Alternativly you can make massive setups by using config files. Project Aurora aceppt json and yaml as markup format, for doing these, you can just pass **-cf** or **-config** in the comand line: 
+
+Exemple of calling Project Aurora with an yaml config file:
+~~~~bash 
+python3 -m aurora.run  -config aurora.yaml
+~~~~
+
+Exemple of calling Project Aurora with an json file config file:
+~~~~bash 
+python3 -m aurora.run  -config aurora.json
+~~~~
+#### The config file structure
+The Config file structure is based on arrays of object for each repository you want to track and call comands following the exemple:
+Exemple in yaml:
+~~~yaml
+- repository: MyFirstProject/
+  comands: 
+    - flask --app MyFirstProject/main.py run --port 5000
+    - flask --app MyFirstProject/main.py run --port 5001
+    - flask --app MyFirstProject/main.py run --port 5002
+
+- repository: MySecondProject/
+  comands:
+    -  python3 build_tool.py 
+~~~
+Exemple in json
+~~~json
+[
+    {
+        "repository":" MyFirstProject/",
+        "comands":[
+            "flask --app MyFirstProject/main.py run --port 5000",
+            "flask --app MyFirstProject/main.py run --port 5001",
+            "flask --app MyFirstProject/main.py run --port 5002"
+        ]
+    },
+
+    {
+        "repository": "MySecondProject/",
+        "comands":"python3 build_tool.py"
+    }
+
+]
+~~~
+### Extras 
+#### Quiet Mode
+You can turn on quiet mode with the **-quiet** or **-q** option. This will prevent any log 
+messages from being printed to the console.
+
 
 
 ### Conclusion

@@ -15,7 +15,7 @@ def get_entrys_from_cli(args:Args,quiet:bool)->dict:
         repo = getcwd()
 
     #Getting Comand
-    comands = list(args.flags_content('comand','c'))
+    comands = list(args.flags_content('comands','c'))
     if not comands:
         comands =[]
 
