@@ -70,7 +70,7 @@ def load_config_file(config_file:str,quiet:bool)->list:
     return config
 
 
-def validate_config_content(quiet:bool, config_content:list):
+def validate_config_content( config_content:list,quiet:bool):
     if not isinstance(config_content,list):
         print_if_not_quiet(quiet,'The config file is not a list.')
         raise ValueError('The config file is not a list.')
@@ -100,7 +100,7 @@ def validate_config_content(quiet:bool, config_content:list):
 def get_entrys_from_config(config_file:str,quiet:bool)->dict:
     """Get the entrys from the config file."""
     config_content = load_config_file(config_file,quiet)
-    validate_config_content(quiet,config_content)
+    validate_config_content(config_content,quiet)
     return config_content
 
 
