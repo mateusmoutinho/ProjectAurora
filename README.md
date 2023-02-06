@@ -61,7 +61,7 @@ python3 -m aurora.run  -config aurora.json
 ~~~~
 #### The config file structure
 The Config file structure is based on arrays of object for each repository you want to track and call comands following the exemple:
-Exemple in yaml:
+Exemple  in yaml:
 ~~~yaml
 - repository: MyFirstProject/
   comands: 
@@ -73,7 +73,7 @@ Exemple in yaml:
   comands:
     -  python3 build_tool.py 
 ~~~
-Exemple in json
+Exemple in json:
 ~~~json
 [
     {
