@@ -1,13 +1,20 @@
 from os import system,remove
 import shutil
-system('pyinstaller  --onefile --name=AuroraLinux  ../aurora/run.py')
-#move the executable to the bin folder
-shutil.move('dist/AuroraLinux', '../binarys/AuroraLinux')
+from platform import system as platform
+
+if platform() == 'Windows':
+    #build the binary
+    system('pyinstaller  --onefile --name=Aurora.exe  ../aurora/run.py')
+    shutil.move('dist/Aurora.exe', '../outputs/binarys/Aurora.exe')
+
+if  platform() == 'Linux':
+    #build the binary
+    system('pyinstaller  --onefile --name=AuroraLinux  ../aurora/run.py')
+    shutil.move('dist/AuroraLinux', '../outputs/binarys/Aurora')
+
 #remove the build folder
 shutil.rmtree('build')
 #remove the dist folder
 shutil.rmtree('dist')
 #remove the spec file
-remove('Aurora.spec')
-#remove the AuroraLinux.sepec
 remove('AuroraLinux.spec')
