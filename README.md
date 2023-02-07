@@ -8,20 +8,6 @@ We believe that automation should be accessible to everyone, and with Project Au
 ## Installation
 
 
-
-#### Interpreted Version
-If have Python3 and Pip instaled on your machine, you can install the program in the interpreted version  with the comand:
-~~~~bash
-pip install git+https://github.com/mateusmoutinho/ProjectAurora.git
-~~~~
-
-and than, run the program with the comand: **python3 -m aurora.main** 
-
-exemple of runing the interpreted version:
-~~~~bash
-python3 -m aurora.main --repository test/ -comands 'flask --app  test/main.py run --port=5001'
-~~~~
-
 #### Binary Instalation
 If you dont want to deal with dependencys you can download the single binary of the program in the path **outputs/binarys/aurora** for linux and **outputs/binarys/aurora.exe** for windows 
 
@@ -37,6 +23,21 @@ sudo chmod +x Aurora
 #move the Binary to usr/bin 
 sudo mv  Aurora /usr/bin/Aurora
 ~~~
+
+
+#### Interpreted Version
+If have Python3 and Pip instaled on your machine, you can install the program in the interpreted version  with the comand:
+~~~~bash
+pip install git+https://github.com/mateusmoutinho/ProjectAurora.git
+~~~~
+
+and than, run the program with the comand: **python3 -m aurora.main** 
+
+exemple of runing the interpreted version:
+~~~~bash
+python3 -m aurora.main --repository test/ -comands 'flask --app  test/main.py run --port=5001'
+~~~~
+
 
 
 
