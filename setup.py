@@ -1,5 +1,3 @@
-
-
 from distutils.core import setup
 
 setup(
@@ -12,5 +10,4 @@ setup(
     author='Mateus Moutinho',
     author_email='mateusmoutinho01@gmial.com',
     description=''
-
 )
