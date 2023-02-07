@@ -21,7 +21,8 @@ def main():
     #runs "generate_repository_actions" in diferents subprocesses
     print_if_not_quiet(quiet, 'Starting Project Aurora...')
     for respository_props in respositorys:
-        print_if_not_quiet(quiet, 'Starting repository: ' + respository_props['name'])
+        repository_name = respository_props['repository']
+        print_if_not_quiet(quiet,quiet, 'Starting repository: ' + repository_name)
         p = multiprocessing.Process(target=generate_repository_actions, args=(respository_props, quiet))
         
         p.start()
