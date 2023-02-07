@@ -25,15 +25,16 @@ python3 -m aurora.main --repository test/ -comands 'flask --app  test/main.py ru
 If you dont want to deal with dependencys you can download the single binary of the program in the path **outputs/binarys/aurora** for linux and **outputs/binarys/aurora.exe** for windows 
 
 For making a full binary instalation follow the comands:
+
 Linux:
 
 ~~~shell
-#install The program 
+#download the binary
 wget  https://github.com/mateusmoutinho/ProjectAurora/raw/main/outputs/binarys/Aurora
 #give binary permission of execution 
-chmod +x Aurora
+sudo chmod +x Aurora
 #move the Binary to usr/bin 
-
+sudo mv  Aurora /usr/bin/Aurora
 ~~~
 
 
