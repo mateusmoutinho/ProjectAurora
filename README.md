@@ -6,12 +6,20 @@ Our goal with Project Aurora is to help developers by providing a tool that stre
 We believe that automation should be accessible to everyone, and with Project Aurora, you can easily set it up on a cloud virtual machine and let it take care of the updates and scripts while you focus on development. Join us in making the development process more efficient with Project Aurora.
 
 ### Installation
-To install Project Aurora, you need to have pip and python installed
-You can then run the following command:
 
+#### Python Instalation
+If you are a Python and Pip user , you can install the python with the comand:
 ~~~~bash
 pip install git+https://github.com/mateusmoutinho/ProjectAurora.git
 ~~~~
+
+and than, run the program with the comand: **python3 -m aurora.main** instead of aurora
+exemple of runing the interpreted version:
+
+~~~~bash
+python3 -m aurora.main --repository test/ -comands 'flask --app  test/main.py run --port=5001'
+~~~~
+
 
 
 ### Comand line usage
@@ -22,12 +30,12 @@ You can specify the repository you want to use with the **-repo** or **-r** opti
 
 Example passing the repository:
 ~~~~bash 
-python3 -m aurora.run --repository test/ -comands 'flask --app  test/main.py run --port=5001'
+aurora --repository test/ -comands 'flask --app  test/main.py run --port=5001'
 ~~~~
 
 Example hiding the repository (it will take the current folder as the repository):
 ~~~~bash 
-python3 -m aurora.run  -comands 'flask --app  main.py run --port=5001'
+aurora -comands 'flask --app  main.py run --port=5001'
 ~~~~
 
 #### Commands
@@ -35,7 +43,7 @@ You can specify the commands you want to run with the **-comands** or **-c** opt
 
 Exemple of running the flask aplication in tree diferents ports:
 ~~~~bash 
-python3 -m aurora.run  -comands 'flask --app  main.py run --port=5001' 'flask --app  main.py run --port=5002' 'flask --app  main.py run --port=5003'
+aurora -comands 'flask --app  main.py run --port=5001' 'flask --app  main.py run --port=5002' 'flask --app  main.py run --port=5003'
 ~~~~
 
 
@@ -44,7 +52,7 @@ You can specify the time interval between checks for updates with the **-time** 
 
 Exemple of seting git update time to 50 seconds:
 ~~~~bash 
-python3 -m aurora.run  -comands 'flask --app  main.py run --port=5001 -time 50'
+aurora -comands 'flask --app  main.py run --port=5001 -time 50'
 ~~~~
 
 ### Config file usage
@@ -52,12 +60,12 @@ Alternativly you can make massive setups by using config files. Project Aurora a
 
 Exemple of calling Project Aurora with an yaml config file:
 ~~~~bash 
-python3 -m aurora.run  -config aurora.yaml
+aurora -config aurora.yaml
 ~~~~
 
 Exemple of calling Project Aurora with an json file config file:
 ~~~~bash 
-python3 -m aurora.run  -config aurora.json
+aurora -config aurora.json
 ~~~~
 #### The config file structure
 The Config file structure is based on arrays of object for each repository you want to track and call comands following the exemple:
