@@ -27,7 +27,7 @@ If you dont want to deal with dependencys you can download the single binary of 
 For making a full binary instalation follow the comands:
 Linux:
 
-~~~shellscript
+~~~shell
 #install The program 
 wget  https://github.com/mateusmoutinho/ProjectAurora/raw/main/outputs/binarys/Aurora
 #give binary permission of execution 
