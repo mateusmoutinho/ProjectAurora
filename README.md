@@ -25,7 +25,7 @@ sudo mv  Aurora /usr/bin/Aurora
 ~~~
 
 
-#### Interpreted Version
+#### Interpreted Instalation
 If have Python3 and Pip instaled on your machine, you can install the program in the interpreted version  with the comand:
 ~~~~bash
 pip install git+https://github.com/mateusmoutinho/ProjectAurora.git
