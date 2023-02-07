@@ -5,10 +5,12 @@ Our goal with Project Aurora is to help developers by providing a tool that stre
 
 We believe that automation should be accessible to everyone, and with Project Aurora, you can easily set it up on a cloud virtual machine and let it take care of the updates and scripts while you focus on development. Join us in making the development process more efficient with Project Aurora.
 
-### Installation
+## Installation
+
+
 
 #### Interpreted Version
-If you are a Python and Pip user , you can install the program in the interpreted version  with the comand:
+If have Python3 and Pip instaled on your machine, you can install the program in the interpreted version  with the comand:
 ~~~~bash
 pip install git+https://github.com/mateusmoutinho/ProjectAurora.git
 ~~~~
@@ -21,6 +23,8 @@ python3 -m aurora.main --repository test/ -comands 'flask --app  test/main.py ru
 
 
 
+
+## Usage
 ### Comand line usage
 The comand line  usage of Project Aurora is to run the command **python3 -m aurora.run** followed by the options you want to use.
 
