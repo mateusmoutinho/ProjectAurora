@@ -22,7 +22,7 @@ def main():
     print_if_not_quiet(quiet, 'Starting Project Aurora...')
     for respository_props in respositorys:
         repository_name = respository_props['repository']
-        print_if_not_quiet(quiet,quiet, 'Starting repository: ' + repository_name)
+        print_if_not_quiet(quiet, 'Starting repository: ' + repository_name)
         p = multiprocessing.Process(target=generate_repository_actions, args=(respository_props, quiet))
         
         p.start()
