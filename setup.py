@@ -1,3 +1,5 @@
+from shutil import copyfile
+from platform import system as platform
 from distutils.core import setup
 
 setup(
@@ -11,3 +13,4 @@ setup(
     author_email='mateusmoutinho01@gmial.com',
     description=''
 )
+

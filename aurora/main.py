@@ -1,4 +1,5 @@
-
+#!python3
+# -*- coding: utf-8 -*-
 import os 
 from aurora.entrys import get_entrys
 from aurora.execution import generate_repository_actions
@@ -25,9 +26,6 @@ def main():
         p.start()
         p.deamon = True
      
-
-
-
 
 
 if __name__ == '__main__':
