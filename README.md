@@ -13,9 +13,8 @@ If you are a Python and Pip user , you can install the program in the interprete
 pip install git+https://github.com/mateusmoutinho/ProjectAurora.git
 ~~~~
 
-and than, run the program with the comand: **python3 -m aurora.main** instead of aurora
+and than, run the program with the comand: **python3 -m aurora.main** 
 exemple of runing the interpreted version:
-
 ~~~~bash
 python3 -m aurora.main --repository test/ -comands 'flask --app  test/main.py run --port=5001'
 ~~~~
