@@ -8,7 +8,7 @@ We believe that automation should be accessible to everyone, and with Project Au
 ### Installation
 
 #### Python Instalation
-If you are a Python and Pip user , you can install the python with the comand:
+If you are a Python and Pip user , you can install the program in the interpreted version  with the comand:
 ~~~~bash
 pip install git+https://github.com/mateusmoutinho/ProjectAurora.git
 ~~~~
