@@ -21,6 +21,24 @@ exemple of runing the interpreted version:
 python3 -m aurora.main --repository test/ -comands 'flask --app  test/main.py run --port=5001'
 ~~~~
 
+#### Binary Instalation
+If you dont want to deal with dependencys you can download the single binary of the program in the path **outputs/binarys/aurora** for linux and **outputs/binarys/aurora.exe** for windows 
+
+For making a full binary instalation follow the comands:
+Linux:
+
+~~~shellscript
+#install The program 
+wget  https://github.com/mateusmoutinho/ProjectAurora/raw/main/outputs/binarys/Aurora
+#give binary permission of execution 
+chmod +x Aurora
+#move the Binary to usr/bin 
+
+~~~
+
+
+
+
 
 
 
