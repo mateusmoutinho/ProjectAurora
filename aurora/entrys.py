@@ -70,19 +70,53 @@ def load_config_file(config_file:str,quiet:bool)->list:
 
     return config
 
+def validade_and_format_comands(comands:list,quiet:bool)->list:
 
+    if not isinstance(comands,list):
+        print_if_not_quiet(quiet,'The comands key is not a list.')
+        raise ValueError('The comands key is not a list.')
+
+    formated_comands = []
+    for comand in comands:
+        
+        if isinstance(comand,str):
+            formated_comands.append(comand)
+            continue
+        if isinstance(comand,dict):
+            if 'seq' not in comand.keys():
+                print_if_not_quiet(quiet,'The seq key is not in the comand dict.')
+                raise ValueError('The seq key is not in the comand dict.')
+            seq = comand['seq']
+            concatened_seq = ''
+            for seq_comand in seq:
+                if not isinstance(seq_comand,str):
+                    print_if_not_quiet(quiet,'The seq key is not a list of strings.')
+                    raise ValueError('The seq key is not a list of strings.')               
+                concatened_seq += seq_comand + ' && '
+            concatened_seq = concatened_seq[:-4]
+            formated_comands.append(concatened_seq)
+
+
+    return formated_comands
 
 def validate_and_format_config_content( config_content:list,quiet:bool):
+    
     if not isinstance(config_content,list):
         print_if_not_quiet(quiet,'The config file is not a list.')
         raise ValueError('The config file is not a list.')
-    
+    formated_config_content = []
+
     for repository in config_content:
         if not isinstance(repository,dict):
             print_if_not_quiet(quiet,'The config file is not a list of dicts.')
             raise ValueError('The config file is not a list of dicts.')
         keys = repository.keys()
-        if not 'repository' in keys:
+        
+        if 'ignore' in keys:
+            if repository['ignore'] == True:
+                continue
+        
+        if  'repository' not in keys:
             print_if_not_quiet(quiet,'The repository key is not in the config file.')
             raise ValueError('The repository key is not in the config file.')
        
@@ -90,25 +124,29 @@ def validate_and_format_config_content( config_content:list,quiet:bool):
         if repository['repository'] == '.':
             repository['repository'] = getcwd()
 
-        if not 'comands' in keys:
+        if  'comands' not in keys:
             repository['comands'] = []
-        if not 'timewait' in keys:
+        
+        if  'timewait' not in keys:
             repository['timewait'] = 10
         
-        if not isinstance(repository['comands'],list):
-            print_if_not_quiet(quiet,'The comands key is not a list.')
-            raise ValueError('The comands key is not a list.')
-        
+        comands = repository['comands']
+        repository['comands']  = validade_and_format_comands(comands,quiet)
+
         if not isinstance(repository['timewait'],int):
             print_if_not_quiet(quiet,'The timewait key is not a int.')
             raise ValueError('The timewait key is not a int.')
-
+ 
+        formated_config_content.append(repository)
+ 
+    return formated_config_content
 
 
 def get_entrys_from_config(config_file:str,quiet:bool)->dict:
     """Get the entrys from the config file."""
     config_content = load_config_file(config_file,quiet)
-    validate_and_format_config_content(config_content,quiet)
+    config_content = validate_and_format_config_content(config_content,quiet)
+    
     return config_content
 
 
@@ -118,9 +156,12 @@ def get_entrys()->dict:
     quiet = True if quiet.exist() else False
     
     config_file = args.flags_content('config','f','cf')
+    
     if config_file.exist_and_empty():
-        print_if_not_quiet(quiet,'The config file is empty.')
+        print_if_not_quiet(quiet,'The config flag is empty.')
         raise ValueError('The config file is empty.')
+
+
     elif config_file.exist():
         repositorys = get_entrys_from_config(config_file[0],quiet)
     else:

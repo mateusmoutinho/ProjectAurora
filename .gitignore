@@ -52,6 +52,7 @@ coverage.xml
 .pytest_cache/
 exec.sh
 junção.py
+aurora.yaml
 # Translations
 *.mo
 *.pot

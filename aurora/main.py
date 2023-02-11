@@ -6,7 +6,7 @@ from aurora.execution import generate_repository_actions
 from aurora.general import print_if_not_quiet
 import multiprocessing
 from sys import exit
-
+import json 
 
 
 def main():
@@ -15,7 +15,9 @@ def main():
         entrys = get_entrys()
     except ValueError:
         exit(1)
-
+    with open('teste.json', 'w') as f:
+        json.dump(entrys,f, indent=4)
+    return 
     quiet = entrys['quiet']
     respositorys = entrys['repositorys']
     #runs "generate_repository_actions" in diferents subprocesses
