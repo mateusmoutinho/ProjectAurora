@@ -119,11 +119,38 @@ Exemple in json:
 
     {
         "repository": "MySecondProject/",
-        "comands":"python3 build_tool.py"
+        "comands":[
+            "python3 build_tool.py"
+            
+        ]
     }
 
 ]
 ~~~
+#### Config Flags 
+
+##### ignore 
+You can set **ignore** to true for the current repository be igonored on the list 
+ex:
+~~~yaml
+- repository: MyFirstProject/
+  ignore: true
+  comands: 
+    - flask --app MyFirstProject/main.py run --port 5000
+~~~
+##### seq 
+You can create seq list to avoid run the comands in paralel, and run all comands of of seq in senquence
+ex:
+
+~~~yaml
+- repository: ../SiteOui/
+  comands:  
+      - seq:     
+        - npm install  --prefix ../SiteOui/
+        - npm run build  --prefix ../SiteOui/
+        - npm start  --prefix ../SiteOui/
+~~~
+
 ### Extras 
 #### Quiet Mode
 You can turn on quiet mode with the **-quiet** or **-q** option. This will prevent any log 
