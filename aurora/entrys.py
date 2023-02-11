@@ -59,7 +59,10 @@ def load_config_file(config_file:str,quiet:bool)->list:
 
     elif extension in ['yaml','yml']:
         try:
-            config = yaml.load(config_content)
+            #load withoud safe_load because it is not a security problem
+            #avoid the warning
+
+            config = yaml.load(config_content,Loader=yaml.FullLoader)
         except yaml.YAMLError:
             print_if_not_quiet(quiet,'The config file is not yaml serializable')
             raise ValueError('The config file is not yaml serializable')
