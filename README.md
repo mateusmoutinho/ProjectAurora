@@ -139,9 +139,9 @@ ex:
     - flask --app MyFirstProject/main.py run --port 5000
 ~~~
 ##### seq 
-You can create seq list to avoid run the comands in paralel, and run all comands of of seq in senquence
+You can create sequencial comands lists to avoid run the comands in paralalel,
+when you use the **seq** key, all the comands will run in sequence one by one
 ex:
-
 ~~~yaml
 - repository: ../SiteOui/
   comands:  
