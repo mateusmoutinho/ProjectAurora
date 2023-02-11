@@ -102,6 +102,7 @@ def validade_and_format_comands(comands:list,quiet:bool)->list:
 
     return formated_comands
 
+
 def validate_and_format_config_content( config_content:list,quiet:bool):
     
     if not isinstance(config_content,list):
