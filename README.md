@@ -143,12 +143,12 @@ You can create sequencial comands lists to avoid run the comands in paralalel,
 when you use the **seq** key, all the comands will run in sequence one by one
 ex:
 ~~~yaml
-- repository: ../SiteOui/
+- repository: MySite/
   comands:  
       - seq:     
-        - npm install  --prefix ../SiteOui/
-        - npm run build  --prefix ../SiteOui/
-        - npm start  --prefix ../SiteOui/
+        - npm install  --prefix MySite/
+        - npm run build  --prefix MySite/
+        - npm start  --prefix MySite/
 ~~~
 
 ### Extras 
