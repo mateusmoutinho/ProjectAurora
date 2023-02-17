@@ -2,3 +2,4 @@
 gitpython
 psutil
 cli-args-system
+git+https://github.com/mateusmoutinho/PySchema
