@@ -138,17 +138,17 @@ ex:
   comands: 
     - flask --app MyFirstProject/main.py run --port 5000
 ~~~
-##### seq 
+##### before 
 You can create sequencial comands lists to avoid run the comands in paralalel,
-when you use the **seq** key, all the comands will run in sequence one by one
+when you use the **before** key, all the comands will run in sequence one by one
 ex:
 ~~~yaml
 - repository: MySite/
+  before:
+      - npm install  --prefix MySite/
+      - npm run build  --prefix MySite/
   comands:  
-      - seq:     
-        - npm install  --prefix MySite/
-        - npm run build  --prefix MySite/
-        - npm start  --prefix MySite/
+      - npm start  --prefix MySite/
 ~~~
 
 ### Extras 
