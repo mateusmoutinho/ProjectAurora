@@ -1,13 +1,13 @@
 from cli_args_system import Args
-
+import PySchema
 from aurora.general import print_if_not_quiet
 from os import getcwd
 import json 
 import yaml
+import traceback
 
 
-
-def get_entrys_from_cli(args:Args,quiet:bool)->dict:
+def get_entrys_from_cli(args:Args)->dict:
     """Get the entrys from the user."""
 
     repo = args.flag_str('repo','r','repository')
@@ -29,7 +29,6 @@ def get_entrys_from_cli(args:Args,quiet:bool)->dict:
         try:
             time_wait = int(time_flag)
         except ValueError:
-            print_if_not_quiet(quiet,'The time flag is not a number.')
             raise ValueError('The time flag is not a number.')
     
     return [{ 
@@ -40,21 +39,21 @@ def get_entrys_from_cli(args:Args,quiet:bool)->dict:
 
 
 
-def load_config_file(config_file:str,quiet:bool)->list:
+def load_config_file(config_file:str)->list:
     """Load the config file."""
     extension = config_file.split('.')[-1]
     try:
         with open(config_file,'r') as file:
             config_content = file.read()
     except FileNotFoundError:
-        print_if_not_quiet(quiet,'The config file does not exist.')
+
         raise FileNotFoundError('The config file does not exist.')
 
     if extension == 'json':
         try:
             config = json.loads(config_content)
         except json.decoder.JSONDecodeError:
-            print_if_not_quiet(quiet,'The config file is json serializable')
+
             raise ValueError('The config file is json serializable.')
 
     elif extension in ['yaml','yml']:
@@ -64,114 +63,106 @@ def load_config_file(config_file:str,quiet:bool)->list:
 
             config = yaml.load(config_content,Loader=yaml.FullLoader)
         except yaml.YAMLError:
-            print_if_not_quiet(quiet,'The config file is not yaml serializable')
             raise ValueError('The config file is not yaml serializable')
     else:
-        print_if_not_quiet(quiet,'The config file is not a json or yaml file.')
         raise ValueError('The config file is not a json or yaml file.')
     
 
     return config
 
-def validade_and_format_comands(comands:list,quiet:bool)->list:
 
-    if not isinstance(comands,list):
-        print_if_not_quiet(quiet,'The comands key is not a list.')
-        raise ValueError('The comands key is not a list.')
-
-    formated_comands = []
-    for comand in comands:
-        
-        if isinstance(comand,str):
-            formated_comands.append(comand)
-            continue
-        if isinstance(comand,dict):
-            if 'seq' not in comand.keys():
-                print_if_not_quiet(quiet,'The seq key is not in the comand dict.')
-                raise ValueError('The seq key is not in the comand dict.')
-            seq = comand['seq']
-            concatened_seq = ''
-            for seq_comand in seq:
-                if not isinstance(seq_comand,str):
-                    print_if_not_quiet(quiet,'The seq key is not a list of strings.')
-                    raise ValueError('The seq key is not a list of strings.')               
-                concatened_seq += seq_comand + ' && '
-            concatened_seq = concatened_seq[:-4]
-            formated_comands.append(concatened_seq)
-
-
-    return formated_comands
-
-
-def validate_and_format_config_content( config_content:list,quiet:bool):
+def validade_and_format_repositorys(repository:dict)->list:
+    PySchema.ensure_not_expected_keys_is_present(
+            data=repository,
+            expected_keys=['repository','comands','ignore','timewait','before','timeout_before'],
+    )
     
-    if not isinstance(config_content,list):
-        print_if_not_quiet(quiet,'The config file is not a list.')
-        raise ValueError('The config file is not a list.')
-    formated_config_content = []
+    repository_value = PySchema.treat_and_get_str(
+            data=repository,
+            key_or_index='repository',
+            default=getcwd()
+    )
+    comands = PySchema.treat_and_get_list(
+            data=repository,
+            key_or_index='comands',
+            default=[]
+    )
 
-    for repository in config_content:
-        if not isinstance(repository,dict):
-            print_if_not_quiet(quiet,'The config file is not a list of dicts.')
-            raise ValueError('The config file is not a list of dicts.')
-        keys = repository.keys()
-        
-        if 'ignore' in keys:
-            if repository['ignore'] == True:
-                continue
-        
-        if  'repository' not in keys:
-            print_if_not_quiet(quiet,'The repository key is not in the config file.')
-            raise ValueError('The repository key is not in the config file.')
-       
-       
-        if repository['repository'] == '.':
-            repository['repository'] = getcwd()
-
-        if  'comands' not in keys:
-            repository['comands'] = []
-        
-        if  'timewait' not in keys:
-            repository['timewait'] = 10
-        
-        comands = repository['comands']
-        repository['comands']  = validade_and_format_comands(comands,quiet)
-
-        if not isinstance(repository['timewait'],int):
-            print_if_not_quiet(quiet,'The timewait key is not a int.')
-            raise ValueError('The timewait key is not a int.')
- 
-        formated_config_content.append(repository)
- 
-    return formated_config_content
+    PySchema.treat_and_get_all(
+            data=comands,
+            callable=lambda data,index : PySchema.treat_and_get_str(
+                    data=data,
+                    key_or_index=index,
+            )
+    )
 
 
-def get_entrys_from_config(config_file:str,quiet:bool)->dict:
-    """Get the entrys from the config file."""
-    config_content = load_config_file(config_file,quiet)
-    config_content = validate_and_format_config_content(config_content,quiet)
+    ignore = PySchema.treat_and_get_bool(
+            data=repository,
+            key_or_index='ignore',
+            default=False
+    )
+    timewait = PySchema.treat_and_get_int(
+            data=repository,
+            key_or_index='timewait',
+            default=10
+    )
+    before = PySchema.treat_and_get_list(
+            data=repository,
+            key_or_index='before',
+            default=[],
+            treater=lambda value: '&&'.join(value) if value else None
+    )
+    timeout_before = PySchema.treat_and_get_int(
+            data=repository,
+            key_or_index='timeout_before',
+            default=60
+    )
+    return repository
+
+
+
+def validate_and_format_config_content( config_content:list):
     
+    
+    PySchema.check_type(data=config_content,expected_type=list)
+    config_content = PySchema.treat_and_get_all(
+        data=config_content,
+        callable=lambda data,index : PySchema.treat_and_get_dict(
+            data=data,
+            key_or_index=index,
+            treater=validade_and_format_repositorys
+        )
+    )
+
     return config_content
+ 
+
 
 
 def get_entrys()->dict:
     args = Args()
+    
     quiet = args.flags_content('quiet','q','quiet')
     quiet = True if quiet.exist() else False
-    
-    config_file = args.flags_content('config','f','cf')
-    
-    if config_file.exist_and_empty():
-        print_if_not_quiet(quiet,'The config flag is empty.')
-        raise ValueError('The config file is empty.')
+    try:    
+        config_file = args.flags_content('config','f','cf')
+        
+        if config_file.exist_and_empty():
+            raise ValueError('The config file is empty.')
 
 
-    elif config_file.exist():
-        repositorys = get_entrys_from_config(config_file[0],quiet)
-    else:
-        repositorys = get_entrys_from_cli(args,quiet)
-    
+        elif config_file.exist():
+            config_content = load_config_file(config_file[0])
+            repositorys = validate_and_format_config_content(config_content)
+        else:
+            repositorys = get_entrys_from_cli(args)
+    except Exception as e:
+        print_if_not_quiet(quiet,e)
+        raise e  
+
     return {
         'quiet':quiet,
         'repositorys':repositorys
     }
+    

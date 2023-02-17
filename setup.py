@@ -6,7 +6,12 @@ setup(
     name='Aurora',
     version='1.0',
     packages=['aurora'],
-    requirements=['gitpython','psutil','cli-args-system'],
+    requirements=[
+        'gitpython',
+        'psutil',
+        'cli-args-system'
+        'git+https://github.com/mateusmoutinho/PySchema'
+        ],
     url='https://github.com/mateusmoutinho/Aurora',
     license='MIT',
     author='Mateus Moutinho',
