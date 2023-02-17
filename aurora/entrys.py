@@ -72,11 +72,48 @@ def load_config_file(config_file:str)->list:
 
 
 def validade_and_format_repositorys(repository:dict)->list:
+    PySchema.ensure_not_expected_keys_is_present(
+            data=repository,
+            expected_keys=['repository','comands','ignore','timewait','before']
+    )
+    
+    repository_value = PySchema.treat_and_get_str(
+            data=repository,
+            key_or_index='repository',
+            default=getcwd()
+    )
+    comands = PySchema.treat_and_get_list(
+            data=repository,
+            key_or_index='comands',
+            default=[]
+    )
+
+    PySchema.treat_and_get_all(
+            data=comands,
+            callable=lambda data,index : PySchema.treat_and_get_str(
+                    data=data,
+                    key_or_index=index,
+            )
+    )
+
+
     ignore = PySchema.treat_and_get_bool(
             data=repository,
             key_or_index='ignore',
             default=False
     )
+    timewait = PySchema.treat_and_get_int(
+            data=repository,
+            key_or_index='timewait',
+            default=10
+    )
+    before = PySchema.treat_and_get_list(
+            data=repository,
+            key_or_index='before',
+            default=[],
+            treater=lambda value: '&&'.join(value) if value else None
+    )
+
     return repository
 
 
@@ -85,7 +122,7 @@ def validate_and_format_config_content( config_content:list):
     
     
     PySchema.check_type(data=config_content,expected_type=list)
-    PySchema.treat_and_get_all(
+    config_content = PySchema.treat_and_get_all(
         data=config_content,
         callable=lambda data,index : PySchema.treat_and_get_dict(
             data=data,
