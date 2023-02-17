@@ -1,16 +1,18 @@
+
 {
     "quiet": false,
     "repositorys": [
         {
             "repository": "../SiteOui/",
-            "ignore": true,
+            "ignore": false,
             "before": [
                 "npm install  --prefix ../SiteOui/",
                 "npm run build  --prefix ../SiteOui/"
             ],
             "comands": [
                 "npm start  --prefix ../SiteOui/"
-            ]
+            ],
+            "timewait": 10
         },
         {
             "repository": "../OiDemoAbc/",
@@ -18,14 +20,14 @@
                 "flask --app ../OiDemoAbc/main.py run --port 5000",
                 "flask --app ../OiDemoAbc/main.py run --port 5001"
             ],
-            "ignore": false
+            "timewait": 10
         },
         {
             "repository": "../OiDemoTemplates/",
             "comands": [
                 "python3 sync_templates.py"
             ],
-            "ignore": false
+            "timewait": 10
         }
     ]
 }

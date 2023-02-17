@@ -71,8 +71,14 @@ def load_config_file(config_file:str)->list:
     return config
 
 
-def validade_and_format_comands(comands:list)->list:
-    return comands
+def validade_and_format_repositorys(repository:dict)->list:
+    ignore = PySchema.treat_and_get_bool(
+            data=repository,
+            key_or_index='ignore',
+            default=False
+    )
+    return repository
+
 
 
 def validate_and_format_config_content( config_content:list):
@@ -84,7 +90,7 @@ def validate_and_format_config_content( config_content:list):
         callable=lambda data,index : PySchema.treat_and_get_dict(
             data=data,
             key_or_index=index,
-            treater=validade_and_format_comands
+            treater=validade_and_format_repositorys
         )
     )
 
