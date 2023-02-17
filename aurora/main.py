@@ -13,9 +13,13 @@ def main():
 
     try:
         entrys = get_entrys()
-    except ValueError:
+    except Exception as e:
+    
         exit(1)
-
+    
+    with open('teste.json', 'w') as f:
+        json.dump(entrys, f, indent=4)
+    return 
     quiet = entrys['quiet']
     respositorys = entrys['repositorys']
     #runs "generate_repository_actions" in diferents subprocesses
