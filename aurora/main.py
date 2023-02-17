@@ -16,14 +16,16 @@ def main():
     except Exception as e:
         exit(1)
     
-    with open('teste.json','w') as file:
-        json.dump(entrys,file,indent=4)
-        return
+  
     quiet = entrys['quiet']
     respositorys = entrys['repositorys']
     #runs "generate_repository_actions" in diferents subprocesses
     print_if_not_quiet(quiet, 'Starting Project Aurora...')
     for respository_props in respositorys:
+        if respository_props['ignore']:
+            print_if_not_quiet(quiet, 'Ignoring repository: ' + respository_props['repository'])
+            continue
+        
         repository_name = respository_props['repository']
         print_if_not_quiet(quiet, 'Starting repository: ' + repository_name)
         p = multiprocessing.Process(target=generate_repository_actions, args=(respository_props, quiet))
