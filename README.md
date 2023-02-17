@@ -141,6 +141,7 @@ ex:
 ##### before 
 You can create sequencial comands lists to avoid run the comands in paralalel,
 when you use the **before** key, all the comands will run in sequence one by one
+istead of runs everything in paralalel witch is the default
 ex:
 ~~~yaml
 - repository: MySite/
