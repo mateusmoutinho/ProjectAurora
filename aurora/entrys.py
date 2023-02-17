@@ -130,6 +130,7 @@ def validate_and_format_config_content( config_content:list):
             treater=validade_and_format_repositorys
         )
     )
+    config_content = list(filter(lambda repository: repository['ignore'] == False,config_content))
 
     return config_content
  

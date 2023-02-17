@@ -16,6 +16,9 @@ def main():
     except Exception as e:
         exit(1)
     
+    with open('teste.json','w') as file:
+        json.dump(entrys,file,indent=4)
+        return
     quiet = entrys['quiet']
     respositorys = entrys['repositorys']
     #runs "generate_repository_actions" in diferents subprocesses
