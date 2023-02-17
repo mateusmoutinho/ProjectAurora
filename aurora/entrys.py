@@ -74,7 +74,7 @@ def load_config_file(config_file:str)->list:
 def validade_and_format_repositorys(repository:dict)->list:
     PySchema.ensure_not_expected_keys_is_present(
             data=repository,
-            expected_keys=['repository','comands','ignore','timewait','before']
+            expected_keys=['repository','comands','ignore','timewait','before','timeout_before'],
     )
     
     repository_value = PySchema.treat_and_get_str(
@@ -113,7 +113,11 @@ def validade_and_format_repositorys(repository:dict)->list:
             default=[],
             treater=lambda value: '&&'.join(value) if value else None
     )
-
+    timeout_before = PySchema.treat_and_get_int(
+            data=repository,
+            key_or_index='timeout_before',
+            default=60
+    )
     return repository
 
 
@@ -155,7 +159,6 @@ def get_entrys()->dict:
             repositorys = get_entrys_from_cli(args)
     except Exception as e:
         print_if_not_quiet(quiet,e)
-        print(traceback.format_exc())
         raise e  
 
     return {

@@ -4,6 +4,7 @@
         {
             "repository": "../SiteOui/",
             "ignore": false,
+            "timeout_before": 30,
             "before": "npm install  --prefix ../SiteOui/&&npm run build  --prefix ../SiteOui/",
             "comands": [
                 "npm start  --prefix ../SiteOui/"
@@ -18,7 +19,8 @@
             ],
             "ignore": false,
             "timewait": 10,
-            "before": null
+            "before": null,
+            "timeout_before": 60
         },
         {
             "repository": "../OiDemoTemplates/",
@@ -27,7 +29,8 @@
             ],
             "ignore": false,
             "timewait": 10,
-            "before": null
+            "before": null,
+            "timeout_before": 60
         }
     ]
 }
